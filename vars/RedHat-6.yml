@@ -1,0 +1,8 @@
+---
+#
+# example download url: https://github.com/sphinxsearch/sphinx/releases/download/2.2.10-release/sphinx-2.2.10-1.rhel7.x86_64.rpm
+#
+sphinx_release: 2.2.10
+sphinx_version: 2.2.10-1
+sphinx_distro: rhel6
+sphinx_download_url: https://github.com/sphinxsearch/sphinx/releases/download/{{ sphinx_release }}-release/sphinx-{{ sphinx_version }}.{{ sphinx_distro }}.x86_64.rpm

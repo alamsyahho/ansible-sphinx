@@ -1,0 +1,32 @@
+---
+- name: include os specific variables
+  include_vars: "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
+
+- name: download sphinx release
+  get_url:
+    url: "{{ sphinx_download_url }}"
+    dest: /var/tmp/{{ sphinx_version }}.{{ sphinx_distro }}.x86_64.rpm
+    timeout: 120
+
+- name: install sphinxsearch
+  yum:
+    name: "/var/tmp/{{ sphinx_version }}.{{ sphinx_distro }}.x86_64.rpm"
+    state: present
+
+- name: ensure sphinx directory exists
+  file:
+    name: "{{ item }}"
+    state: directory
+    owner: "sphinx"
+    group: "sphinx"
+    recurse: true
+  with_items:
+    - /etc/sphinx
+    - /var/log/sphinx
+    - /var/opt/sphinx/seeking
+
+- name: start sphinx searchd and start on boot
+  service:
+    name: searchd
+    state: started
+    enabled: yes
